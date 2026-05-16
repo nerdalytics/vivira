@@ -1,0 +1,48 @@
+# Allow-list .gitignore: ignore everything by default, then re-allow tracked files.
+# Anything not explicitly un-ignored below stays out of git.
+
+# 1. Ignore everything
+*
+
+# 2. Re-allow directories so git can descend into them
+!*/
+
+# 3. Re-allow top-level project files
+!.gitignore
+!.gitattributes
+!.editorconfig
+!LICENSE
+!README.md
+!mise.toml
+!project.yml
+!Package.swift
+!Package.resolved
+
+# 4. Re-allow Swift source files anywhere in the tree
+!*.swift
+
+# 5. Re-allow Xcode asset catalog metadata
+!Contents.json
+
+# 6. Re-allow Info.plist / entitlements / storyboards if added later
+!*.plist
+!*.entitlements
+!*.xcconfig
+!*.storyboard
+!*.xib
+!*.strings
+!*.stringsdict
+
+# 7. Hard re-ignore for generated / build artifacts (defense in depth -
+#    these would otherwise be pulled back in by rule #2).
+.build/
+build/
+DerivedData/
+*.xcodeproj/
+*.xcworkspace/
+xcuserdata/
+*.xcuserstate
+.swiftpm/
+Pods/
+Carthage/Build/
+.DS_Store
