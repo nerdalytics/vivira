@@ -27,11 +27,14 @@ run         = "open $PROJECT_NAME.xcodeproj"
 [tasks.build]
 description = "Build for iOS Simulator"
 depends     = ["generate"]
+# OTHER_SWIFT_FLAGS=-disable-sandbox lets swift-plugin-server run when xcodebuild
+# is invoked from within an outer sandbox (Claude Code) that blocks sandbox_apply.
 run = """
 xcodebuild build \
   -project $PROJECT_NAME.xcodeproj \
   -scheme $SCHEME \
   -destination 'generic/platform=iOS Simulator' \
+  OTHER_SWIFT_FLAGS='$(inherited) -disable-sandbox' \
   | xcbeautify
 """
 
@@ -43,6 +46,7 @@ xcodebuild test \
   -project $PROJECT_NAME.xcodeproj \
   -scheme $SCHEME \
   -destination "platform=iOS Simulator,name=$SIM_DEVICE" \
+  OTHER_SWIFT_FLAGS='$(inherited) -disable-sandbox' \
   | xcbeautify
 """
 
