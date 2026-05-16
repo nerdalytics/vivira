@@ -2,9 +2,10 @@
 claude = "2.1.141"
 
 [env]
-PROJECT_NAME  = "Vivira"
-SCHEME        = "Vivira"
-SIM_DEVICE    = "iPhone 17"   # adjust to a simulator you have installed (xcrun simctl list devices)
+PROJECT_NAME       = "Vivira"
+SCHEME             = "Vivira"
+SIM_DEVICE         = "iPhone 17"   # adjust to a simulator you have installed (xcrun simctl list devices)
+EXTRA_SWIFT_FLAGS  = ""             # set in mise.local.toml when xcodebuild itself runs inside an outer sandbox (e.g. -disable-sandbox)
 
 [tasks.bootstrap]
 description = "First-time setup: install brew deps and generate the Xcode project"
@@ -27,28 +28,26 @@ run         = "open $PROJECT_NAME.xcodeproj"
 [tasks.build]
 description = "Build for iOS Simulator"
 depends     = ["generate"]
-# OTHER_SWIFT_FLAGS=-disable-sandbox lets swift-plugin-server run when xcodebuild
-# is invoked from within an outer sandbox (Claude Code) that blocks sandbox_apply.
-run = """
+run = '''
 xcodebuild build \
   -project $PROJECT_NAME.xcodeproj \
   -scheme $SCHEME \
   -destination 'generic/platform=iOS Simulator' \
-  OTHER_SWIFT_FLAGS='$(inherited) -disable-sandbox' \
+  OTHER_SWIFT_FLAGS="\$(inherited) $EXTRA_SWIFT_FLAGS" \
   | xcbeautify
-"""
+'''
 
 [tasks.test]
 description = "Run unit tests on $SIM_DEVICE"
 depends     = ["generate"]
-run = """
+run = '''
 xcodebuild test \
   -project $PROJECT_NAME.xcodeproj \
   -scheme $SCHEME \
   -destination "platform=iOS Simulator,name=$SIM_DEVICE" \
-  OTHER_SWIFT_FLAGS='$(inherited) -disable-sandbox' \
+  OTHER_SWIFT_FLAGS="\$(inherited) $EXTRA_SWIFT_FLAGS" \
   | xcbeautify
-"""
+'''
 
 [tasks.lint]
 description = "Run SwiftLint"
