@@ -1,0 +1,62 @@
+[tools]
+claude = "2.1.141"
+
+[env]
+PROJECT_NAME  = "Vivira"
+SCHEME        = "Vivira"
+SIM_DEVICE    = "iPhone 17"   # adjust to a simulator you have installed (xcrun simctl list devices)
+
+[tasks.bootstrap]
+description = "First-time setup: install brew deps and generate the Xcode project"
+run = """
+set -euo pipefail
+command -v brew >/dev/null || { echo "Install Homebrew first: https://brew.sh"; exit 1; }
+brew install --quiet swiftlint xcbeautify
+mise run generate
+"""
+
+[tasks.generate]
+description = "Regenerate Vivira.xcodeproj from project.yml"
+run = "xcodegen generate"
+
+[tasks.open]
+description = "Open the project in Xcode"
+depends     = ["generate"]
+run         = "open $PROJECT_NAME.xcodeproj"
+
+[tasks.build]
+description = "Build for iOS Simulator"
+depends     = ["generate"]
+run = """
+xcodebuild build \
+  -project $PROJECT_NAME.xcodeproj \
+  -scheme $SCHEME \
+  -destination 'generic/platform=iOS Simulator' \
+  | xcbeautify
+"""
+
+[tasks.test]
+description = "Run unit tests on $SIM_DEVICE"
+depends     = ["generate"]
+run = """
+xcodebuild test \
+  -project $PROJECT_NAME.xcodeproj \
+  -scheme $SCHEME \
+  -destination "platform=iOS Simulator,name=$SIM_DEVICE" \
+  | xcbeautify
+"""
+
+[tasks.lint]
+description = "Run SwiftLint"
+run         = "swiftlint"
+
+[tasks."lint:fix"]
+description = "Auto-fix SwiftLint violations"
+run         = "swiftlint --fix"
+
+[tasks.clean]
+description = "Remove generated Xcode project and this app's DerivedData"
+run = """
+rm -rf $PROJECT_NAME.xcodeproj
+rm -rf ~/Library/Developer/Xcode/DerivedData/${PROJECT_NAME}-*
+"""
