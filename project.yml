@@ -29,3 +29,14 @@ targets:
         INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad: "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
         TARGETED_DEVICE_FAMILY: "1,2"
         DEVELOPMENT_ASSET_PATHS: "\"Vivira/Preview Content\""
+  ViviraTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: ViviraTests
+    dependencies:
+      - target: Vivira
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: cc.vivira.tests
+        GENERATE_INFOPLIST_FILE: YES
