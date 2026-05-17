@@ -422,11 +422,11 @@ public enum Theme: String, CaseIterable, Codable, Sendable {
 
     public var displayName: String {
         switch self {
-        case .lumen:   return String(localized: "Lumen",   bundle: Bundle.module)
-        case .pomelo:  return String(localized: "Pomelo",  bundle: Bundle.module)
-        case .iris:    return String(localized: "Iris",    bundle: Bundle.module)
-        case .aqua:    return String(localized: "Aqua",    bundle: Bundle.module)
-        case .magenta: return String(localized: "Magenta", bundle: Bundle.module)
+        case .lumen:   return String(localized: "Lumen")
+        case .pomelo:  return String(localized: "Pomelo")
+        case .iris:    return String(localized: "Iris")
+        case .aqua:    return String(localized: "Aqua")
+        case .magenta: return String(localized: "Magenta")
         }
     }
 }
@@ -435,6 +435,8 @@ extension EnvironmentValues {
     @Entry public var viviraTheme: Theme = .lumen
 }
 ```
+
+The five `String(localized:)` calls deliberately omit the `bundle:` parameter even though the design system's long-term intent is to localize against the package bundle. SwiftPM generates `Bundle.module` only during a real `swift build`; SourceKit's index pass does not run the resource-accessor generator, so any reference to `Bundle.module` shows a permanent editor diagnostic. Since the package ships no localization files in v1 (per design system §13), the lookups fall through to `Bundle.main` with no observable impact — the string literals themselves are the display names. When the first `.strings` or `.xcstrings` file lands in the package, add `bundle: Bundle.module` back to all five calls in the same commit that adds the strings file.
 
 - [ ] **Step 3: Build the package**
 

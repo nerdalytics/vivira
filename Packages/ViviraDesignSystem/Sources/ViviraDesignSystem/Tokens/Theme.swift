@@ -6,11 +6,11 @@ public enum Theme: String, CaseIterable, Codable, Sendable {
 
     public var displayName: String {
         switch self {
-        case .lumen:   return String(localized: "Lumen",   bundle: Bundle.module)
-        case .pomelo:  return String(localized: "Pomelo",  bundle: Bundle.module)
-        case .iris:    return String(localized: "Iris",    bundle: Bundle.module)
-        case .aqua:    return String(localized: "Aqua",    bundle: Bundle.module)
-        case .magenta: return String(localized: "Magenta", bundle: Bundle.module)
+        case .lumen:   return String(localized: "Lumen")
+        case .pomelo:  return String(localized: "Pomelo")
+        case .iris:    return String(localized: "Iris")
+        case .aqua:    return String(localized: "Aqua")
+        case .magenta: return String(localized: "Magenta")
         }
     }
 }
