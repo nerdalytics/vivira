@@ -405,7 +405,7 @@ public extension Font {
         public static let displayLarge: Font = .system(.largeTitle, design: .default, weight: .bold)
         public static let body:         Font = .system(.body,       design: .default, weight: .regular)
         public static let bodyBold:     Font = .system(.body,       design: .default, weight: .semibold)
-        public static let headline:     Font = .system(.headline,   design: .default, weight: .semibold)
+        public static let headline:     Font = .system(.headline,   design: .default)
     }
 }
 ```
@@ -422,11 +422,11 @@ public enum Theme: String, CaseIterable, Codable, Sendable {
 
     public var displayName: String {
         switch self {
-        case .lumen:   return String(localized: "Lumen")
-        case .pomelo:  return String(localized: "Pomelo")
-        case .iris:    return String(localized: "Iris")
-        case .aqua:    return String(localized: "Aqua")
-        case .magenta: return String(localized: "Magenta")
+        case .lumen:   return String(localized: "Lumen",   bundle: .module)
+        case .pomelo:  return String(localized: "Pomelo",  bundle: .module)
+        case .iris:    return String(localized: "Iris",    bundle: .module)
+        case .aqua:    return String(localized: "Aqua",    bundle: .module)
+        case .magenta: return String(localized: "Magenta", bundle: .module)
         }
     }
 }
