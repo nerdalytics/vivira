@@ -422,11 +422,11 @@ public enum Theme: String, CaseIterable, Codable, Sendable {
 
     public var displayName: String {
         switch self {
-        case .lumen:   return String(localized: "Lumen",   bundle: .module)
-        case .pomelo:  return String(localized: "Pomelo",  bundle: .module)
-        case .iris:    return String(localized: "Iris",    bundle: .module)
-        case .aqua:    return String(localized: "Aqua",    bundle: .module)
-        case .magenta: return String(localized: "Magenta", bundle: .module)
+        case .lumen:   return String(localized: "Lumen",   bundle: Bundle.module)
+        case .pomelo:  return String(localized: "Pomelo",  bundle: Bundle.module)
+        case .iris:    return String(localized: "Iris",    bundle: Bundle.module)
+        case .aqua:    return String(localized: "Aqua",    bundle: Bundle.module)
+        case .magenta: return String(localized: "Magenta", bundle: Bundle.module)
         }
     }
 }
