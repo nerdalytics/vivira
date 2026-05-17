@@ -12,7 +12,6 @@ public struct ViviraButton<Label: View>: View {
     private let label: Label
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
-    @State private var isPressed = false
 
     public init(
         role: Role = .accent,
