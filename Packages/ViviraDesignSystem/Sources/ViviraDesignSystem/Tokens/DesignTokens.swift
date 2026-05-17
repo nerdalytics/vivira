@@ -3,9 +3,15 @@ import SwiftUI
 
 public extension Color {
     enum vivira {
-        public static let bg    = Color("vivira.bg",    bundle: .module)
-        public static let ink2  = Color("vivira.ink2",  bundle: .module)
-        public static let faint = Color("vivira.faint", bundle: .module)
+        public static let bg          = Color("vivira.bg",          bundle: .module)
+        public static let surface     = Color("vivira.surface",     bundle: .module)
+        public static let surface2    = Color("vivira.surface2",    bundle: .module)
+        public static let ink         = Color("vivira.ink",         bundle: .module)
+        public static let ink2        = Color("vivira.ink2",        bundle: .module)
+        public static let muted       = Color("vivira.muted",       bundle: .module)
+        public static let faint       = Color("vivira.faint",       bundle: .module)
+        public static let line        = Color("vivira.line",        bundle: .module)
+        public static let lineStrong  = Color("vivira.lineStrong",  bundle: .module)
     }
 }
 
