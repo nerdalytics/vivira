@@ -1,11 +1,10 @@
 [tools]
-claude = "2.1.141"
 
 [env]
-PROJECT_NAME       = "Vivira"
-SCHEME             = "Vivira"
-SIM_DEVICE         = "iPhone 17"   # adjust to a simulator you have installed (xcrun simctl list devices)
-EXTRA_SWIFT_FLAGS  = ""             # set in mise.local.toml when xcodebuild itself runs inside an outer sandbox (e.g. -disable-sandbox)
+PROJECT_NAME = "Vivira"
+SCHEME = "Vivira"
+SIM_DEVICE = "iPhone 17"  # adjust to a simulator you have installed (xcrun simctl list devices)
+EXTRA_SWIFT_FLAGS = ""  # set in mise.local.toml when xcodebuild itself runs inside an outer sandbox (e.g. -disable-sandbox)
 
 [tasks.bootstrap]
 description = "First-time setup: install brew deps and generate the Xcode project"
@@ -22,12 +21,12 @@ run = "xcodegen generate"
 
 [tasks.open]
 description = "Open the project in Xcode"
-depends     = ["generate"]
-run         = "open $PROJECT_NAME.xcodeproj"
+depends = ["generate"]
+run = "open $PROJECT_NAME.xcodeproj"
 
 [tasks.build]
 description = "Build for iOS Simulator"
-depends     = ["generate"]
+depends = ["generate"]
 run = '''
 xcodebuild build \
   -project $PROJECT_NAME.xcodeproj \
@@ -39,7 +38,7 @@ xcodebuild build \
 
 [tasks.test]
 description = "Run unit tests on $SIM_DEVICE"
-depends     = ["generate"]
+depends = ["generate"]
 run = '''
 xcodebuild test \
   -project $PROJECT_NAME.xcodeproj \
@@ -51,11 +50,11 @@ xcodebuild test \
 
 [tasks.lint]
 description = "Run SwiftLint"
-run         = "swiftlint"
+run = "swiftlint"
 
 [tasks."lint:fix"]
 description = "Auto-fix SwiftLint violations"
-run         = "swiftlint --fix"
+run = "swiftlint --fix"
 
 [tasks.clean]
 description = "Remove generated Xcode project and this app's DerivedData"
