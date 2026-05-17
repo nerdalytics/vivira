@@ -580,13 +580,12 @@ Both paths are RUFH-aware via URLSession. Whether RUFH actually engages depends 
 
 **Default path — silent background:**
 - PhotoKit Background Resource Upload Extension (`PHBackgroundResourceUploadExtension`)
-- iOS 26.1+
 - System wakes the extension, processes upload jobs, retries on its own schedule, manages network and power
 - Apple states the extension's underlying connection "will attempt to resume the upload using standard HTTP" if the server supports it. Expected behavior with a RUFH-aware proxy in front: drops resume from offset across wakes. Without RUFH support, each wake retries the upload from zero — the "stuck queue" risk that the warning in §4.1 S3 surfaces. Exact extension ↔ URLSession ↔ RUFH interop is verified during implementation (see §14 #1).
 - Used for: all uploads, regardless of size, as the steady-state path
 
 **Override path — "Upload now" foreground:**
-- `BGContinuedProcessingTask` (iOS 17+, with iOS 26 enhancements)
+- `BGContinuedProcessingTask`
 - Triggered by explicit user action ("Upload now" in subscription detail, or batched start from the Sync Sheet)
 - Shows system Lock Screen progress UI; survives app backgrounding for hours
 - Used for: users who want a specific subscription's pending uploads to complete fast, not over multiple background wakes
@@ -768,7 +767,7 @@ To resolve during implementation, not blocking this spec:
 
 ### Apple / iOS
 
-- [Uploading asset resources in the background](https://developer.apple.com/documentation/photokit/uploading-asset-resources-in-the-background) — `PHBackgroundResourceUploadExtension`, iOS 26.1+
+- [Uploading asset resources in the background](https://developer.apple.com/documentation/photokit/uploading-asset-resources-in-the-background) — `PHBackgroundResourceUploadExtension`
 - [Finish tasks in the background — WWDC25 Session 227](https://developer.apple.com/videos/play/wwdc2025/227/) — `BGContinuedProcessingTask`
 - [Build robust and resumable file transfers — WWDC23 Session 10006](https://developer.apple.com/videos/play/wwdc2023/10006/) — URLSession + IETF resumable uploads
 - [PHAssetChangeRequest.deleteAssets](https://developer.apple.com/documentation/photokit/phassetchangerequest/1624062-deleteassets) — system confirmation dialog required

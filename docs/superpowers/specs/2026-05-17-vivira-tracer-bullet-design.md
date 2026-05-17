@@ -177,7 +177,7 @@ All 19 colorsets use Display P3. High-contrast variants are not included in the 
 
 **`project.yml`.** Adds a `packages:` block referencing the local `ViviraDesignSystem` path and lists `ViviraDesignSystem` as a `dependencies:` entry on the `Vivira` target.
 
-**`Packages/ViviraDesignSystem/Package.swift`.** `swift-tools-version: 6.0`. iOS platform requirement is `.iOS("18.0")` — the `@Entry` macro used by `SemanticColor.swift` requires the iOS 18 SDK at compile time, even though the values it generates work on older targets. Library product `ViviraDesignSystem`. Test-target dependency on `pointfreeco/swift-snapshot-testing` from `1.17.0`.
+**`Packages/ViviraDesignSystem/Package.swift`.** `swift-tools-version: 6.0`. iOS platform requirement is `.iOS("26.5")` — matches the app's deployment target; no other iOS version is supported. Library product `ViviraDesignSystem`. Test-target dependency on `pointfreeco/swift-snapshot-testing` from `1.17.0`.
 
 ### 3.7 Tests
 
