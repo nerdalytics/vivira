@@ -88,7 +88,8 @@ import PackageDescription
 let package = Package(
     name: "ViviraDesignSystem",
     platforms: [
-        .iOS("26.5")
+        .iOS("26.5"),
+        .macOS("26.0")
     ],
     products: [
         .library(name: "ViviraDesignSystem", targets: ["ViviraDesignSystem"])
@@ -101,6 +102,8 @@ let package = Package(
     ]
 )
 ```
+
+The `.macOS("26.0")` entry is a SwiftPM hint for SourceKit's host-OS index pass — without it the indexer falls back to a pre-SwiftUI macOS minimum and flags every `Color` reference as unavailable. It is not a deployment claim; Vivira ships on iOS 26.5 only.
 
 - [ ] **Step 3: Write the asset-catalog root `Contents.json`**
 
@@ -1203,7 +1206,8 @@ import PackageDescription
 let package = Package(
     name: "ViviraDesignSystem",
     platforms: [
-        .iOS("26.5")
+        .iOS("26.5"),
+        .macOS("26.0")
     ],
     products: [
         .library(name: "ViviraDesignSystem", targets: ["ViviraDesignSystem"])
