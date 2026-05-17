@@ -587,7 +587,7 @@ public struct ViviraButton<Label: View>: View {
     }
 
     public var body: some View {
-        Button(action: action) {
+        Button(action: action, label: {
             label
                 .font(.vivira.bodyBold)
                 .lineLimit(1)
@@ -595,7 +595,7 @@ public struct ViviraButton<Label: View>: View {
                 .padding(.horizontal, .vivira.mdPlus)
                 .foregroundStyle(Color.vivira.bg)
                 .background(.accent, in: RoundedRectangle(cornerRadius: .vivira.radius.md))
-        }
+        })
         .buttonStyle(ViviraButtonStyle(reduceMotion: reduceMotion))
         .accessibilityAddTraits(.isButton)
     }
@@ -620,6 +620,8 @@ public extension ViviraButton where Label == Text {
     }
 }
 ```
+
+The explicit `label:` argument label avoids SourceKit's overload-resolution preference for `Button(role:action:)` over `Button(action:label:)` when a trailing closure is present. Using a non-trailing closure is unambiguous.
 
 Only the `.accent` role exists. Adding `.primary`, `.secondary`, `.ghost`, `.destructive` later means extending the `Role` enum, adding cases to `body`, and exhausting the switch — out of scope for the bullet.
 

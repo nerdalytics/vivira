@@ -25,7 +25,7 @@ public struct ViviraButton<Label: View>: View {
     }
 
     public var body: some View {
-        Button(action: action) {
+        Button(action: action, label: {
             label
                 .font(.vivira.bodyBold)
                 .lineLimit(1)
@@ -33,7 +33,7 @@ public struct ViviraButton<Label: View>: View {
                 .padding(.horizontal, .vivira.mdPlus)
                 .foregroundStyle(Color.vivira.bg)
                 .background(.accent, in: RoundedRectangle(cornerRadius: .vivira.radius.md))
-        }
+        })
         .buttonStyle(ViviraButtonStyle(reduceMotion: reduceMotion))
         .accessibilityAddTraits(.isButton)
     }
