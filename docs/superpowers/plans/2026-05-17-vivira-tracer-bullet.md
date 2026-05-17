@@ -89,7 +89,7 @@ let package = Package(
     name: "ViviraDesignSystem",
     platforms: [
         .iOS("26.5"),
-        .macOS("26.0")
+        .macOS(.v15)
     ],
     products: [
         .library(name: "ViviraDesignSystem", targets: ["ViviraDesignSystem"])
@@ -103,7 +103,7 @@ let package = Package(
 )
 ```
 
-The `.macOS("26.0")` entry is a SwiftPM hint for SourceKit's host-OS index pass — without it the indexer falls back to a pre-SwiftUI macOS minimum and flags every `Color` reference as unavailable. It is not a deployment claim; Vivira ships on iOS 26.5 only.
+The `.macOS(.v15)` entry is a SwiftPM hint for SourceKit's host-OS index pass — without it the indexer falls back to a pre-SwiftUI macOS minimum (below macOS 10.15) and flags every `Color` reference as unavailable. macOS 15 is well above that threshold and the enum case is guaranteed to exist in any Swift 6.0 toolchain. The library still ships only on iOS 26.5; this line is not a deployment claim.
 
 - [ ] **Step 3: Write the asset-catalog root `Contents.json`**
 
@@ -1207,7 +1207,7 @@ let package = Package(
     name: "ViviraDesignSystem",
     platforms: [
         .iOS("26.5"),
-        .macOS("26.0")
+        .macOS(.v15)
     ],
     products: [
         .library(name: "ViviraDesignSystem", targets: ["ViviraDesignSystem"])
