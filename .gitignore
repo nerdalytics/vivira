@@ -33,7 +33,10 @@
 !*.strings
 !*.stringsdict
 
-# 7. Hard re-ignore for generated / build artifacts (defense in depth -
+# 7. Re-allow design specs and reference docs under docs/
+!docs/**/*.md
+
+# 8. Hard re-ignore for generated / build artifacts (defense in depth -
 #    these would otherwise be pulled back in by rule #2).
 .build/
 build/
