@@ -4,7 +4,8 @@ import PackageDescription
 let package = Package(
     name: "ViviraDesignSystem",
     platforms: [
-        .iOS("26.5")
+        .iOS("26.5"),
+        .macOS("26.0")
     ],
     products: [
         .library(name: "ViviraDesignSystem", targets: ["ViviraDesignSystem"])
