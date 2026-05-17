@@ -39,6 +39,14 @@
 # 7b. Re-allow GitHub repo metadata (PR/issue templates, CODEOWNERS, etc.)
 !.github/**/*.md
 
+# 7c. Re-allow README and docs image assets
+!assets/**/*.png
+!assets/**/*.jpg
+!assets/**/*.jpeg
+!assets/**/*.svg
+!assets/**/*.gif
+!assets/**/*.webp
+
 # 8. Hard re-ignore for generated / build artifacts (defense in depth -
 #    these would otherwise be pulled back in by rule #2).
 .build/
