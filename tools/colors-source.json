@@ -1,0 +1,20 @@
+{
+  "neutrals": {
+    "vivira.bg":         { "light": "#F5F7FA", "dark": "#07090C" },
+    "vivira.surface":    { "light": "#FFFFFF", "dark": "#11161C" },
+    "vivira.surface2":   { "light": "#EDF1F6", "dark": "#161D26" },
+    "vivira.ink":        { "light": "#0F1419", "dark": "#E8EDF2" },
+    "vivira.ink2":       { "light": "#2D3A47", "dark": "#B5BFC9" },
+    "vivira.muted":      { "light": "#5B6770", "dark": "#94A1AD" },
+    "vivira.faint":      { "light": "#8A95A2", "dark": "#5C6A76" },
+    "vivira.line":       { "light": "#E1E7EF", "dark": "#1F2832" },
+    "vivira.lineStrong": { "light": "#C9D1DA", "dark": "#2A3441" }
+  },
+  "accents": {
+    "lumen":   { "light": "oklch(60% 0.18 240)", "dark": "oklch(75% 0.16 240)" },
+    "pomelo":  { "light": "oklch(64% 0.18 35)",  "dark": "oklch(76% 0.15 35)"  },
+    "iris":    { "light": "oklch(52% 0.22 280)", "dark": "oklch(72% 0.19 280)" },
+    "aqua":    { "light": "oklch(60% 0.16 200)", "dark": "oklch(75% 0.14 200)" },
+    "magenta": { "light": "oklch(62% 0.22 335)", "dark": "oklch(76% 0.18 335)" }
+  }
+}

@@ -62,3 +62,13 @@ run = """
 rm -rf $PROJECT_NAME.xcodeproj
 rm -rf ~/Library/Developer/Xcode/DerivedData/${PROJECT_NAME}-*
 """
+
+[tasks.gen-colors]
+description = "Regenerate ViviraColors.xcassets from tools/colors-source.json (one-off; run when colors change)"
+run = """
+set -euo pipefail
+if [ ! -d tools/node_modules ]; then
+  (cd tools && npm install)
+fi
+node tools/oklch-to-p3.mjs
+"""

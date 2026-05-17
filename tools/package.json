@@ -1,0 +1,9 @@
+{
+  "name": "vivira-color-tools",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "colorjs.io": "^0.5.2"
+  }
+}

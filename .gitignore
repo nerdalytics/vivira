@@ -18,6 +18,12 @@
 !Package.swift
 !Package.resolved
 
+# 3b. Re-allow color generator tooling under tools/
+!tools/colors-source.json
+!tools/package.json
+!tools/package-lock.json
+!tools/oklch-to-p3.mjs
+
 # 4. Re-allow Swift source files anywhere in the tree
 !*.swift
 
@@ -60,3 +66,6 @@ xcuserdata/
 Pods/
 Carthage/Build/
 .DS_Store
+
+# Local Node dependencies for the colorset generator (run `cd tools && npm install` when colors change)
+tools/node_modules
