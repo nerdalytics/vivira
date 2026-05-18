@@ -1417,57 +1417,57 @@ git commit -m "feat(app): wire ThemeStorage as the source of \\.viviraTheme"
 
 **Files:**
 - Create: `Packages/ViviraDesignSystem/Tests/ViviraDesignSystemTests/EmptyStateSnapshotTests.swift`
-- Create: `Packages/ViviraDesignSystem/Tests/ViviraDesignSystemTests/__Snapshots__/EmptyStateSnapshotTests/emptyState_lumen_light.1.png`
-- Create: `Packages/ViviraDesignSystem/Tests/ViviraDesignSystemTests/__Snapshots__/EmptyStateSnapshotTests/emptyState_lumen_dark.1.png`
+- Create: `Packages/ViviraDesignSystem/Tests/ViviraDesignSystemTests/__Snapshots__/EmptyStateSnapshotTests/test_emptyState_lumen_light.1.png`
+- Create: `Packages/ViviraDesignSystem/Tests/ViviraDesignSystemTests/__Snapshots__/EmptyStateSnapshotTests/test_emptyState_lumen_dark.1.png`
+
+> **Note on test framework choice:** The snapshot tests use XCTest, not Swift Testing. swift-snapshot-testing 1.19.2's Swift Testing integration triggers a compiler ICE (`failed to produce diagnostic for expression`) on the `assertSnapshot` call under iOS 26.5. XCTest is the library's primary integration target and is unaffected. The `ThemeStorage` tests continue to use Swift Testing — only the snapshot tests moved.
 
 - [ ] **Step 1: Write the snapshot test file**
 
 ```swift
+// EmptyState snapshot baseline tests (Lumen light + dark).
+
 import SnapshotTesting
 import SwiftUI
-import Testing
+import XCTest
 @testable import ViviraDesignSystem
 
 @MainActor
-@Suite struct EmptyStateSnapshotTests {
+final class EmptyStateSnapshotTests: XCTestCase {
 
-    @Test func emptyState_lumen_light() {
-        let view = AnyView(
-            EmptyState(
-                symbol: "photo.on.rectangle.angled",
-                message: "Vivira keeps Immich shared albums\nin sync with your iPhone.",
-                ctaLabel: "Add a server",
-                action: {}
-            )
-            .environment(\.viviraTheme, .lumen)
-            .background(Color.vivira.bg)
-            .frame(width: 393, height: 852)
-            .preferredColorScheme(.light)
+    func test_emptyState_lumen_light() {
+        let view = EmptyState(
+            symbol: "photo.on.rectangle.angled",
+            message: "Vivira keeps Immich shared albums\nin sync with your iPhone.",
+            ctaLabel: "Add a server",
+            action: {}
         )
+        .environment(\.viviraTheme, .lumen)
+        .background(Color.vivira.bg)
+        .frame(width: 393, height: 852)
+        .preferredColorScheme(.light)
 
         assertSnapshot(of: view, as: .image)
     }
 
-    @Test func emptyState_lumen_dark() {
-        let view = AnyView(
-            EmptyState(
-                symbol: "photo.on.rectangle.angled",
-                message: "Vivira keeps Immich shared albums\nin sync with your iPhone.",
-                ctaLabel: "Add a server",
-                action: {}
-            )
-            .environment(\.viviraTheme, .lumen)
-            .background(Color.vivira.bg)
-            .frame(width: 393, height: 852)
-            .preferredColorScheme(.dark)
+    func test_emptyState_lumen_dark() {
+        let view = EmptyState(
+            symbol: "photo.on.rectangle.angled",
+            message: "Vivira keeps Immich shared albums\nin sync with your iPhone.",
+            ctaLabel: "Add a server",
+            action: {}
         )
+        .environment(\.viviraTheme, .lumen)
+        .background(Color.vivira.bg)
+        .frame(width: 393, height: 852)
+        .preferredColorScheme(.dark)
 
         assertSnapshot(of: view, as: .image)
     }
 }
 ```
 
-`AnyView(...)` wraps each modifier chain to collapse the deeply-nested `ModifiedContent<ModifiedContent<...>>` concrete type into a single `AnyView: View`. Without this, Swift's type checker hits its complexity ceiling and emits a `failed to produce diagnostic for expression` ICE on the `assertSnapshot` call. The inner chain (EmptyState + 4 modifiers) is unchanged in content.
+This is an `XCTestCase` subclass. `@MainActor` is on the class to satisfy SwiftUI rendering requirements. `AnyView` wrapping is not needed — XCTest does not hit the ICE, and the simpler modifier chain is easier to read.
 
 Dimensions 393 × 852 match the iPhone 17 portrait safe area approximately.
 
@@ -1488,7 +1488,7 @@ Snapshot 'emptyState_lumen_light' was not found on disk. Use 'record: true' or r
 …
 ```
 
-The library records the image at `Packages/ViviraDesignSystem/Tests/ViviraDesignSystemTests/__Snapshots__/EmptyStateSnapshotTests/emptyState_lumen_light.1.png` and the dark counterpart.
+The library records the image at `Packages/ViviraDesignSystem/Tests/ViviraDesignSystemTests/__Snapshots__/EmptyStateSnapshotTests/test_emptyState_lumen_light.1.png` and the dark counterpart.
 
 - [ ] **Step 3: Inspect the recorded images manually**
 
@@ -1504,7 +1504,7 @@ If either image is wrong (e.g., wrong color, missing element), delete both PNGs,
 mise run test
 ```
 
-Expected: `Test Suite 'All tests' passed`. The snapshot tests now compare against the recorded baseline.
+Expected: all tests pass. The two XCTest snapshot methods compare against the recorded baselines and report no diff.
 
 - [ ] **Step 5: Commit**
 
@@ -1588,7 +1588,7 @@ If steps 1–5 all passed without changes, the bullet meets every acceptance cri
 ## End-of-bullet checklist (mirror of spec §5)
 
 - [ ] `mise run build` succeeds with no new warnings.
-- [ ] `mise run test` passes (4 `ThemeStorage` + 2 `EmptyStateSnapshotTests` + existing `ViviraTests.smoke`).
+- [ ] `mise run test` passes (4 `ThemeStorage` Swift Testing cases + 2 `EmptyStateSnapshotTests` XCTest cases + existing `ViviraTests.smoke`). Note: snapshot tests are XCTest; ThemeStorage tests are Swift Testing — both run under `swift test`.
 - [ ] `mise run lint` passes.
 - [ ] The app boots on iPhone 17 simulator and renders the empty state per UX flow §12.1.
 - [ ] Toggling system appearance light ↔ dark changes the colors at runtime, including the accent on the button.
