@@ -279,6 +279,7 @@ These were considered and deliberately left out to keep the bullet at end-to-end
 7. Add the remaining atoms and molecules in roughly the order the onboarding wizard needs them (`WizardStepHeader`, `ViviraTextField`, `CapabilityChip`, `SegmentedPicker`, `InfoCard`, `Toggle`).
 8. Set the runtime contract for "Vivira only touches what Vivira created" (UX paradigm §16, UX flow §12.3 rule 1). This lives in the app data layer, not the design system, and is a candidate for an early architecture spec of its own.
 9. Wire localization against the package bundle. The five `String(localized:)` calls in `Theme.displayName` currently omit `bundle:`, so they fall through to `Bundle.main`. This has no observable impact while the package ships no localization files, but when the first `.xcstrings` or `.strings` file lands in `ViviraDesignSystem`, add `bundle: Bundle.module` to all five call sites in the same commit that adds the strings file.
+10. **Wire `EmptyStateSnapshotTests` to actually run.** The snapshot tests are gated with `#if canImport(UIKit)` because swift-snapshot-testing's `.image(layout:)` only exists on UIKit-bearing platforms; `swift test` on the macOS host now compiles them to nothing. To actually run them, add the package's `ViviraDesignSystemTests` target to the Vivira app's test scheme in `project.yml` so `xcodebuild test` runs them against the iOS simulator. (Alternatively: move the snapshot tests into the `ViviraTests` app target.) Until this lands, snapshot regression coverage is provided by manual simulator verification.
 
 ---
 

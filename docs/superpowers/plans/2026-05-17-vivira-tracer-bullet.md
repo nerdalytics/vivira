@@ -1431,7 +1431,13 @@ git commit -m "feat(app): wire ThemeStorage as the source of \\.viviraTheme"
 
 ```swift
 // EmptyState snapshot baseline tests (Lumen light + dark).
+// Gated on UIKit availability: swift-snapshot-testing's .image(layout:)
+// only exists on UIKit-bearing platforms. On macOS this file compiles to
+// nothing so `swift test` on the host stops hitting an API mismatch.
+// These tests need an Xcode scheme that runs them against the iOS
+// simulator to actually execute; see spec §6.2 follow-up.
 
+#if canImport(UIKit)
 import SnapshotTesting
 import SwiftUI
 import XCTest
@@ -1466,11 +1472,16 @@ final class EmptyStateSnapshotTests: XCTestCase {
         assertSnapshot(of: view, as: .image(layout: .fixed(width: 393, height: 852)))
     }
 }
+#endif
 ```
 
-This is an `XCTestCase` subclass. `@MainActor` is on the class to satisfy SwiftUI rendering requirements. The view chain has 2 modifiers (`.background` + `.preferredColorScheme`). `.environment(\.viviraTheme, .lumen)` is omitted because Lumen is the `@Entry` default — adding it is a visual no-op. The frame is expressed as `.image(layout: .fixed(width: 393, height: 852))` on the snapshot strategy rather than as an inline `.frame()` modifier, which reduces the modifier count and avoids the compiler ICE in overload resolution.
+This is an `XCTestCase` subclass wrapped in `#if canImport(UIKit)`. The gate is required because swift-snapshot-testing's `.image(layout:)` overload only exists on UIKit-bearing platforms (iOS/tvOS); on macOS the equivalent is `.image(size:)` against `Snapshotting<View, NSImage>`. Without the gate, `swift test` on the macOS host trips a platform-API mismatch (`Snapshotting<CALayer, NSImage>` / `.fixed` not found). With the gate the file compiles to nothing on macOS, eliminating the error.
+
+`@MainActor` is on the class to satisfy SwiftUI rendering requirements. The view chain has 2 modifiers (`.background` + `.preferredColorScheme`). `.environment(\.viviraTheme, .lumen)` is omitted because Lumen is the `@Entry` default — adding it is a visual no-op. The frame is expressed as `.image(layout: .fixed(width: 393, height: 852))` on the snapshot strategy rather than as an inline `.frame()` modifier.
 
 Dimensions 393 × 852 match the iPhone 17 portrait safe area approximately.
+
+**Important:** Because `#if canImport(UIKit)` compiles these tests to nothing on the macOS host, `swift test --package-path Packages/ViviraDesignSystem` does not execute them. To actually run the snapshot tests, the `ViviraDesignSystemTests` target must be wired into an Xcode scheme that builds for the iOS simulator so `xcodebuild test` runs them. This is captured as spec §6.2 follow-up item 10. Until that scheme wiring lands, snapshot regression coverage is manual (verify in simulator).
 
 - [ ] **Step 2: First run records the reference snapshots**
 
@@ -1589,7 +1600,7 @@ If steps 1–5 all passed without changes, the bullet meets every acceptance cri
 ## End-of-bullet checklist (mirror of spec §5)
 
 - [ ] `mise run build` succeeds with no new warnings.
-- [ ] `mise run test` passes (4 `ThemeStorage` Swift Testing cases + 2 `EmptyStateSnapshotTests` XCTest cases + existing `ViviraTests.smoke`). Note: snapshot tests are XCTest; ThemeStorage tests are Swift Testing — both run under `swift test`.
+- [ ] `mise run test` passes (4 `ThemeStorage` Swift Testing cases via `swift test` on the macOS host + existing `ViviraTests.smoke` via `xcodebuild`). The `EmptyStateSnapshotTests` XCTest cases are `#if canImport(UIKit)`-gated and compile to nothing on the macOS host; they require scheme wiring to run against the iOS simulator (see spec §6.2 item 10). Snapshot regression coverage is currently manual.
 - [ ] `mise run lint` passes.
 - [ ] The app boots on iPhone 17 simulator and renders the empty state per UX flow §12.1.
 - [ ] Toggling system appearance light ↔ dark changes the colors at runtime, including the accent on the button.
