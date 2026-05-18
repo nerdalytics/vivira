@@ -9,24 +9,44 @@ import XCTest
 final class ThemePickerSnapshotTests: XCTestCase {
 
     // Lumen
-    func test_themePicker_lumen_light() { assertPicker(selected: .lumen, scheme: .light) }
-    func test_themePicker_lumen_dark()  { assertPicker(selected: .lumen, scheme: .dark)  }
+    func test_themePicker_lumen_light() {
+        assertPicker(selected: .lumen, scheme: .light)
+    }
+    func test_themePicker_lumen_dark() {
+        assertPicker(selected: .lumen, scheme: .dark)
+    }
 
     // Pomelo
-    func test_themePicker_pomelo_light() { assertPicker(selected: .pomelo, scheme: .light) }
-    func test_themePicker_pomelo_dark()  { assertPicker(selected: .pomelo, scheme: .dark)  }
+    func test_themePicker_pomelo_light() {
+        assertPicker(selected: .pomelo, scheme: .light)
+    }
+    func test_themePicker_pomelo_dark() {
+        assertPicker(selected: .pomelo, scheme: .dark)
+    }
 
     // Iris
-    func test_themePicker_iris_light() { assertPicker(selected: .iris, scheme: .light) }
-    func test_themePicker_iris_dark()  { assertPicker(selected: .iris, scheme: .dark)  }
+    func test_themePicker_iris_light() {
+        assertPicker(selected: .iris, scheme: .light)
+    }
+    func test_themePicker_iris_dark() {
+        assertPicker(selected: .iris, scheme: .dark)
+    }
 
     // Aqua
-    func test_themePicker_aqua_light() { assertPicker(selected: .aqua, scheme: .light) }
-    func test_themePicker_aqua_dark()  { assertPicker(selected: .aqua, scheme: .dark)  }
+    func test_themePicker_aqua_light() {
+        assertPicker(selected: .aqua, scheme: .light)
+    }
+    func test_themePicker_aqua_dark() {
+        assertPicker(selected: .aqua, scheme: .dark)
+    }
 
     // Magenta
-    func test_themePicker_magenta_light() { assertPicker(selected: .magenta, scheme: .light) }
-    func test_themePicker_magenta_dark()  { assertPicker(selected: .magenta, scheme: .dark)  }
+    func test_themePicker_magenta_light() {
+        assertPicker(selected: .magenta, scheme: .light)
+    }
+    func test_themePicker_magenta_dark() {
+        assertPicker(selected: .magenta, scheme: .dark)
+    }
 
     private func assertPicker(
         selected: Theme,
