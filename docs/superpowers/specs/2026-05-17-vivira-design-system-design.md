@@ -21,7 +21,7 @@ This document does not duplicate the UX flow design or the UX paradigms. Where t
 | Aesthetic direction | **Foreground language** — clean, technical, photo-first |
 | Themes | Five user-selectable: **Lumen** (default), **Pomelo**, **Iris**, **Aqua**, **Magenta** |
 | Light + dark | Both shipped together, every token specified in both modes |
-| Theme picker | Settings → Appearance only (not in onboarding) |
+| Theme picker | Inline section on Connected root (not in onboarding) |
 | Source of truth | **Swift canonical** — token values live in code; Penpot is a hand-maintained mirror |
 | Color format | oklch in spec; Display P3 hex baked into Asset Catalog at authoring time |
 | Module | One SPM package: `ViviraDesignSystem` |
@@ -245,9 +245,9 @@ See §2.1.2 for values. Personality summary:
 
 ### 3.3 Picker placement
 
-Theme picker lives in **Settings → Appearance**. Onboarding does not include theme selection; the user gets Lumen on first run and can change later.
+The theme picker is an inline section on the Connected root (UX flow §5.3), positioned between Servers and About. Onboarding does not include theme selection; the user gets Lumen on first run and changes later.
 
-The Settings → Appearance screen shows five preview cards in a 1-column vertical list, each card identical in structure to the per-palette preview used during design (palette swatches + a contextual button + two badges, in the current light/dark mode the user is in). Tap to select; the change is immediate, no apply button.
+The section consists of a `SectionLabel("Appearance")` followed by a single row of 5 `ThemeSwatch` circles (one per theme, rendered with `accent.<theme>.<currentMode>`), with a `font.caption` caption beneath naming the currently-selected theme. The selected swatch carries a donut-ring treatment: 2pt `color.ink` outer ring with a 2pt `color.surface` gap between fill and ring. Tap to switch; the change is immediate, no apply button. The per-palette preview cards used during design (palette swatches plus sample button plus badges) remain as the Penpot reference and do not ship as UI.
 
 ### 3.4 Default
 
@@ -416,6 +416,10 @@ In dark mode, snackbar is inverted: `surface` (light bg) with `ink` (dark) text 
 
 Per UX flow §12: appears when a transfer exceeds 30s.
 
+### 5.24 ThemeSwatch
+
+`ThemeSwatch(theme:, isSelected:)`. 28pt circle filled with `accent.<theme>.<colorScheme>`. When `isSelected`, draws a 2pt `color.ink` ring with a 2pt `color.surface` gap between fill and ring. Hit area is 44pt minimum when used in `ThemePicker` (the picker wraps each swatch in a `Button`; the swatch itself is purely visual). No state, no gestures, no haptics — those live in the picker.
+
 ---
 
 ## 6. Molecules
@@ -426,7 +430,7 @@ Twenty-two molecules — combinations of atoms with a single purpose. Each is na
 
 **SubscriptionRow** *(content list)* — `ThumbnailTile` 150pt tall + body containing `Headline` title, `Pill` placement indicator (top-right), `DirectionGlyph + monoLabel` mode line, count line OR `StateBadge` when attention needed. See §7.1 for the layout. Appears on Connected root screen (§5 of UX flow) and as the row pattern for the Sync Sheet sections.
 
-**ServerRow** *(utility row)* — Server `Icon(.externaldrive)` 44pt avatar left, `Headline` server name, `caption` hostname, `CapabilityChip` status badge below name, `Chevron` right. Appears on Connected root §5.3 (Servers section) and under Settings.
+**ServerRow** *(utility row)* — Server `Icon(.externaldrive)` 44pt avatar left, `Headline` server name, `caption` hostname, `CapabilityChip` status badge below name, `Chevron` right. Appears on Connected root §5.3 (Servers section). No discrete Settings hub — see §3.3.
 
 **FormRow** *(iOS Settings style)* — `body` label left, `caption` value + `Chevron` right. Appears on Subscription Detail §6.
 
@@ -475,6 +479,8 @@ Twenty-two molecules — combinations of atoms with a single purpose. Each is na
 **PermissionsRow** — `Headline` title + `body` description + status indicator (`Toggle` or `StateBadge`). Used in §4.3 G2 of UX flow.
 
 **CategoryHeader** — `Headline` category name + `monoLabel` count trailing. Used at the top of each SyncSheetSection.
+
+**ThemePicker** — `HStack` of 5 `ThemeSwatch` atoms distributed `.spacedEvenly`, followed by `font.caption` in `color.muted` naming the current selection. Takes a `Binding<Theme>`; tapping a swatch writes the binding. Light haptic on selection, gated on `@Environment(\.accessibilityReduceMotion)`. Lives in the Appearance section on Connected root (UX flow §5.3). The visible app is the preview — no per-card sample buttons or badges.
 
 ### 6.6 Where molecules compose into organisms
 
