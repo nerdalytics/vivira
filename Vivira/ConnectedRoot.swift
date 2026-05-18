@@ -50,6 +50,7 @@ private struct SubscriptionListPlaceholder: View {
                     .stroke(style: StrokeStyle(lineWidth: 1, dash: [4, 4]))
                     .foregroundStyle(Color.vivira.line)
             )
+            .accessibilityHidden(true)
     }
 }
 

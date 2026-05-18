@@ -25,8 +25,7 @@ public struct ThemeSwatch: View {
             .frame(width: Self.diameter, height: Self.diameter)
             .overlay(selectionRing)
             .accessibilityElement(children: .ignore)
-            .accessibilityLabel(theme.displayName)
-            .accessibilityAddTraits(isSelected ? [.isButton, .isSelected] : .isButton)
+            .accessibilityAddTraits(isSelected ? [.isSelected] : [])
     }
 
     @ViewBuilder
