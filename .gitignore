@@ -11,12 +11,19 @@
 !.gitignore
 !.gitattributes
 !.editorconfig
+!.swiftlint.yml
 !LICENSE
 !README.md
 !mise.toml
 !project.yml
 !Package.swift
 !Package.resolved
+
+# 3b. Re-allow color generator tooling under tools/
+!tools/colors-source.json
+!tools/package.json
+!tools/package-lock.json
+!tools/oklch-to-p3.mjs
 
 # 4. Re-allow Swift source files anywhere in the tree
 !*.swift
@@ -47,6 +54,10 @@
 !assets/**/*.gif
 !assets/**/*.webp
 
+# 7d. Re-allow swift-snapshot-testing reference PNGs (committed so a clean clone can pass `mise run test`)
+!Packages/**/__Snapshots__/
+!Packages/**/__Snapshots__/**
+
 # 8. Hard re-ignore for generated / build artifacts (defense in depth -
 #    these would otherwise be pulled back in by rule #2).
 .build/
@@ -60,3 +71,6 @@ xcuserdata/
 Pods/
 Carthage/Build/
 .DS_Store
+
+# Local Node dependencies for the colorset generator (run `cd tools && npm install` when colors change)
+tools/node_modules

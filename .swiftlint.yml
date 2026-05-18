@@ -1,0 +1,14 @@
+excluded:
+  - Packages/ViviraDesignSystem/.build
+  - Packages/ViviraDesignSystem/Sources/ViviraDesignSystem/generated
+
+type_name:
+  min_length: 1
+  # vivira and radius are intentional lowercase namespace enums (dot-notation API: Color.vivira.bg)
+  validates_start_with_lowercase: warning
+
+identifier_name:
+  min_length: 1
+
+nesting:
+  type_level: 2

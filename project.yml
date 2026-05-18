@@ -13,12 +13,17 @@ settings:
     CURRENT_PROJECT_VERSION: "1"
     SWIFT_APPROACHABLE_CONCURRENCY: YES
     SWIFT_DEFAULT_ACTOR_ISOLATION: MainActor
+packages:
+  ViviraDesignSystem:
+    path: Packages/ViviraDesignSystem
 targets:
   Vivira:
     type: application
     platform: iOS
     sources:
       - path: Vivira
+    dependencies:
+      - package: ViviraDesignSystem
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: cc.vivira

@@ -890,7 +890,7 @@ All interactive components are ≥ 44×44pt (Apple HIG minimum). Inline chips an
 
 ## 11. Liquid Glass policy
 
-iOS 26's Liquid Glass material is for navigation chrome. Vivira uses it only in three places:
+iOS 26.5's Liquid Glass material is for navigation chrome. Vivira uses it only in three places:
 
 1. **NavBar background when scrolled** — applies `.glassEffect(.regular)` once content scrolls past the top edge.
 2. **Pinned primary action container** at the bottom of a screen when content scrolls behind it — `.glassEffect(.regular.tint(.accent))` so the action's tint reads even over busy content.
@@ -987,7 +987,7 @@ To resolve during implementation, not blocking this spec:
 
 ### SwiftUI design system patterns
 
-- [@Entry macro guide](https://www.donnywals.com/adding-values-to-the-swiftui-environment-with-entry/) — iOS 18+, back-deployable env values
+- [@Entry macro guide](https://www.donnywals.com/adding-values-to-the-swiftui-environment-with-entry/) — back-deployable env values
 - [Custom Environment Colors](https://freiwald.dev/posts/custom-environment-colors/) — ShapeStyle + Environment theming pattern
 - [ColorTokensKit-Swift](https://github.com/metasidd/ColorTokensKit-Swift) — runtime oklch math in Swift (optional, not used in v1)
 
