@@ -51,7 +51,7 @@ final class ThemePickerSnapshotTests: XCTestCase {
     private func assertPicker(
         selected: Theme,
         scheme: ColorScheme,
-        file: StaticString = #file,
+        file: StaticString = #filePath,
         testName: String = #function,
         line: UInt = #line
     ) {
