@@ -4,7 +4,7 @@ import SwiftUI
 
 @MainActor
 public final class ThemeStorage: ObservableObject {
-    public static let userDefaultsKey = "ViviraDesignSystem.theme"
+    static let userDefaultsKey = "ViviraDesignSystem.theme"
 
     @Published public var current: Theme {
         didSet {

@@ -54,6 +54,10 @@
 !assets/**/*.gif
 !assets/**/*.webp
 
+# 7d. Re-allow swift-snapshot-testing reference PNGs (committed so a clean clone can pass `mise run test`)
+!Packages/**/__Snapshots__/
+!Packages/**/__Snapshots__/**
+
 # 8. Hard re-ignore for generated / build artifacts (defense in depth -
 #    these would otherwise be pulled back in by rule #2).
 .build/

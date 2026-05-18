@@ -37,7 +37,7 @@ xcodebuild build \
 '''
 
 [tasks.test]
-description = "Run unit tests on $SIM_DEVICE"
+description = "Run unit tests on $SIM_DEVICE (app + design system)"
 depends = ["generate"]
 run = '''
 xcodebuild test \
@@ -46,6 +46,7 @@ xcodebuild test \
   -destination "platform=iOS Simulator,name=$SIM_DEVICE" \
   OTHER_SWIFT_FLAGS="\$(inherited) $EXTRA_SWIFT_FLAGS" \
   | xcbeautify
+swift test --package-path Packages/ViviraDesignSystem
 '''
 
 [tasks.lint]
