@@ -22,9 +22,14 @@ final class EmptyStateSnapshotTests: XCTestCase {
             action: {}
         )
         .background(Color.vivira.bg)
-        .preferredColorScheme(.light)
 
-        assertSnapshot(of: view, as: .image(layout: .fixed(width: 393, height: 852)))
+        assertSnapshot(
+            of: view,
+            as: .image(
+                layout: .fixed(width: 393, height: 852),
+                traits: UITraitCollection(userInterfaceStyle: .light)
+            )
+        )
     }
 
     func test_emptyState_lumen_dark() {
@@ -35,9 +40,14 @@ final class EmptyStateSnapshotTests: XCTestCase {
             action: {}
         )
         .background(Color.vivira.bg)
-        .preferredColorScheme(.dark)
 
-        assertSnapshot(of: view, as: .image(layout: .fixed(width: 393, height: 852)))
+        assertSnapshot(
+            of: view,
+            as: .image(
+                layout: .fixed(width: 393, height: 852),
+                traits: UITraitCollection(userInterfaceStyle: .dark)
+            )
+        )
     }
 }
 #endif

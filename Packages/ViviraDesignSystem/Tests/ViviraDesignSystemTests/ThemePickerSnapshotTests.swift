@@ -66,11 +66,14 @@ final class ThemePickerSnapshotTests: XCTestCase {
         }
 
         let view = Host(selection: selected)
-            .preferredColorScheme(scheme)
+        let style: UIUserInterfaceStyle = scheme == .dark ? .dark : .light
 
         assertSnapshot(
             of: view,
-            as: .image(layout: .fixed(width: 360, height: 96)),
+            as: .image(
+                layout: .fixed(width: 360, height: 96),
+                traits: UITraitCollection(userInterfaceStyle: style)
+            ),
             file: file,
             testName: testName,
             line: line

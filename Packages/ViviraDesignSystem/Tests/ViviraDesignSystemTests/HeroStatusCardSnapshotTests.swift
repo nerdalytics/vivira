@@ -16,12 +16,14 @@ final class HeroStatusCardSnapshotTests: XCTestCase {
         .padding(.vivira.md)
         .frame(width: 393)
         .background(Color.vivira.bg)
-        .preferredColorScheme(.light)
         .environment(\.viviraTheme, .lumen)
 
         assertSnapshot(
             of: view,
-            as: .image(layout: .fixed(width: 393, height: 120))
+            as: .image(
+                layout: .fixed(width: 393, height: 120),
+                traits: UITraitCollection(userInterfaceStyle: .light)
+            )
         )
     }
 }
