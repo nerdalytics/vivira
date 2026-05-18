@@ -16,11 +16,7 @@ struct ContentView: View {
                 )
                 .background(Color.vivira.bg.ignoresSafeArea())
             case .connected:
-                Text("Connected — ConnectedRoot lands in Task 7")
-                    .font(.vivira.body)
-                    .foregroundStyle(Color.vivira.ink2)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .background(Color.vivira.bg.ignoresSafeArea())
+                ConnectedRoot()
             }
         }
     }
