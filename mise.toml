@@ -37,25 +37,17 @@ xcodebuild build \
 '''
 
 [tasks.test]
-description = "Run unit tests on $SIM_DEVICE (app on simulator + design system on host; see spec §6.2 about snapshot tests)"
+description = "Run unit tests on $SIM_DEVICE (Vivira app + design system package)"
 depends = ["generate"]
 run = '''
 set -euo pipefail
 
-# Run the app's tests (ViviraTests.smoke) on the iOS simulator.
 xcodebuild test \
   -project $PROJECT_NAME.xcodeproj \
   -scheme $SCHEME \
   -destination "platform=iOS Simulator,name=$SIM_DEVICE" \
   OTHER_SWIFT_FLAGS="\$(inherited) $EXTRA_SWIFT_FLAGS" \
   | xcbeautify
-
-# Run the design system's host-runnable tests (ThemeStorage). The snapshot
-# tests are #if canImport(UIKit)-gated and only compile against iOS; they
-# require an Xcode scheme that builds the package test target for the
-# simulator. Wiring that scheme is tracked as a follow-up in the tracer
-# bullet spec §6.2.
-swift test --package-path Packages/ViviraDesignSystem
 '''
 
 [tasks.lint]
