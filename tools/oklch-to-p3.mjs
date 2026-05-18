@@ -30,7 +30,10 @@ function toP3Components(value) {
 
 function writeColorset(path, contents) {
   if (!existsSync(path)) mkdirSync(path, { recursive: true });
-  writeFileSync(resolve(path, "Contents.json"), JSON.stringify(contents, null, 2) + "\n");
+  const json = JSON.stringify(contents, null, 2) + "\n";
+  const target = resolve(path, "Contents.json");
+  if (existsSync(target) && readFileSync(target, "utf8") === json) return;
+  writeFileSync(target, json);
 }
 
 function neutralColorset(light, dark) {

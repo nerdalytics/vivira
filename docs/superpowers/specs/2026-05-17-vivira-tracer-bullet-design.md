@@ -52,7 +52,7 @@ vivira/
 │       │   │   ├── SemanticColor.swift       // AccentColor: ShapeStyle
 │       │   │   └── Typography.swift          // Font.vivira.* bound to Apple text styles
 │       │   ├── Atoms/
-│       │   │   ├── ViviraButton.swift        // .accent role only
+│       │   │   ├── ViviraButton.swift        // single tinted-accent style
 │       │   │   └── Icon.swift                // SF Symbols wrapper
 │       │   ├── Molecules/
 │       │   │   └── EmptyState.swift
@@ -131,7 +131,7 @@ The remaining semantic roles (`destructive`, `warn`, `success`) and their soft v
 
 ### 3.2 Atoms
 
-**`ViviraButton(role: .accent, action:, label:)`.** 44pt tall, `radius.md` corners, `space.mdPlus` horizontal padding, `font.bodyBold`, `.lineLimit(1)`. Fill `.accent`, text in `Color.vivira.bg` (contrasts well over the accent in both modes per design system §5.1). Press state: 95% scale and 60% opacity, gated on `accessibilityReduceMotion`. Accessibility: `.isButton` trait, label from content. The other four roles (`.primary`, `.secondary`, `.ghost`, `.destructive`) are not implemented in the bullet.
+**`ViviraButton(action:, label:)`.** 44pt tall, `radius.md` corners, `space.mdPlus` horizontal padding, `font.bodyBold`, `.lineLimit(1)`. Fill `.accent`, text in `Color.vivira.bg` (contrasts well over the accent in both modes per design system §5.1). Press state: 95% scale and 60% opacity, gated on `accessibilityReduceMotion`. Accessibility: `.isButton` trait, label from content. The button ships with a single tinted-accent style today; a role/style enum will be introduced when a second style lands.
 
 **`Icon(symbol: String, size: CGFloat, foreground: Color)`.** A thin `Image(systemName:)` wrapper. The empty state uses one symbol, `photo.on.rectangle.angled`, at 48pt with `Color.vivira.faint` foreground per design system §6.5.
 
@@ -253,7 +253,7 @@ These were considered and deliberately left out to keep the bullet at end-to-end
 
 ### 6.1 Not in the bullet
 
-- All other atoms: TextField, SecureField, TypedConfirmField, Toggle, SegmentedPicker, CapabilityChip, FilterChip, Pill, StateBadge, DirectionGlyph, StepIndicator, LinearProgress, Spinner, Skeleton, Thumbnail, ThumbnailTile, Divider, Chevron, SectionLabel, Snackbar, LiveActivityChip. The other four `ViviraButton` roles (`.primary`, `.secondary`, `.ghost`, `.destructive`) also stay unbuilt.
+- All other atoms: TextField, SecureField, TypedConfirmField, Toggle, SegmentedPicker, CapabilityChip, FilterChip, Pill, StateBadge, DirectionGlyph, StepIndicator, LinearProgress, Spinner, Skeleton, Thumbnail, ThumbnailTile, Divider, Chevron, SectionLabel, Snackbar, LiveActivityChip. Additional `ViviraButton` styles (primary, secondary, ghost, destructive) also stay unbuilt.
 - All other molecules: SubscriptionRow, ServerRow, FormRow, AlbumViewRow, HeroStatusLine, HeroStatusCard, ModeLine, CountsLine, SuccessBanner, FailureBanner, DegradedBanner, WizardStepHeader, InfoCard, CapabilityRow, HonestDisclosureRow, TwoCardChooser, TypedConfirmBlock, SyncSheetSection, AlbumThumbnailStrip, PermissionsRow, CategoryHeader.
 - Layout primitives: `ContentList`, `UtilityList`, `PageScaffold`, the bottom-fade affordance from design system §7.3.
 - The destructive, warn, and success semantic roles and their soft variants. The soft-mixing math from design system §2.1.3 is not implemented.
@@ -271,7 +271,7 @@ These were considered and deliberately left out to keep the bullet at end-to-end
 ### 6.2 Follow-ups to file when the bullet lands
 
 1. Add destructive, warn, success semantic roles and the soft-mixer math. Required by FailureBanner, SuccessBanner, DegradedBanner, TypedConfirmBlock, and StateBadge.
-2. Build out the remaining four `ViviraButton` roles. Required by every wizard step's pinned action and by the disconnect flow.
+2. Add a role/style enum to `ViviraButton` when a second style ships. Required by every wizard step's pinned action and by the disconnect flow.
 3. Add high-contrast colorset variants for the 19 existing colorsets (and for any added later). The design system §10.3 a11y mandate covers all colorsets.
 4. Add the 5 × 2 snapshot matrix for `EmptyState` plus per-atom snapshot tests.
 5. Build the Settings → Appearance theme picker. Wires `ThemeStorage` to the user.

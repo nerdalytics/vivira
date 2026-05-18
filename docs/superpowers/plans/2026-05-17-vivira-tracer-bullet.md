@@ -24,7 +24,7 @@
 | `Packages/ViviraDesignSystem/Sources/ViviraDesignSystem/Tokens/Theme.swift` | `Theme` enum + `EnvironmentValues.viviraTheme` via `@Entry`. |
 | `Packages/ViviraDesignSystem/Sources/ViviraDesignSystem/Tokens/SemanticColor.swift` | `AccentColor: ShapeStyle` resolving `(theme, colorScheme)` → asset-catalog entry. |
 | `Packages/ViviraDesignSystem/Sources/ViviraDesignSystem/Atoms/Icon.swift` | Thin SF Symbols wrapper. |
-| `Packages/ViviraDesignSystem/Sources/ViviraDesignSystem/Atoms/ViviraButton.swift` | `.accent` role only; the four other roles ship later. |
+| `Packages/ViviraDesignSystem/Sources/ViviraDesignSystem/Atoms/ViviraButton.swift` | Single tinted-accent style; a role/style enum is introduced when a second style ships. |
 | `Packages/ViviraDesignSystem/Sources/ViviraDesignSystem/Molecules/EmptyState.swift` | Icon + body copy + accent button, vertically centered. |
 | `Packages/ViviraDesignSystem/Sources/ViviraDesignSystem/Resources/ViviraColors.xcassets/` | 5 colorsets in Pass 1 (`vivira.bg`, `vivira.ink2`, `vivira.faint`, `accent.lumen.light`, `accent.lumen.dark`). |
 
@@ -562,25 +562,20 @@ git commit -m "feat(ds): Icon atom — SF Symbols wrapper"
 - [ ] **Step 1: Write `ViviraButton.swift`**
 
 ```swift
+// Tinted accent button atom (a11y-aware press feedback).
+
 import SwiftUI
 
 public struct ViviraButton<Label: View>: View {
-    public enum Role: Sendable {
-        case accent
-    }
-
-    private let role: Role
     private let action: () -> Void
     private let label: Label
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     public init(
-        role: Role = .accent,
         action: @escaping () -> Void,
         @ViewBuilder label: () -> Label
     ) {
-        self.role = role
         self.action = action
         self.label = label()
     }
@@ -606,14 +601,14 @@ private struct ViviraButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .scaleEffect(configuration.isPressed && !reduceMotion ? 0.95 : 1.0)
-            .opacity(configuration.isPressed ? 0.6 : 1.0)
+            .opacity(configuration.isPressed && !reduceMotion ? 0.6 : 1.0)
             .animation(reduceMotion ? .none : .easeOut(duration: 0.12), value: configuration.isPressed)
     }
 }
 
 public extension ViviraButton where Label == Text {
-    init(_ titleKey: LocalizedStringKey, role: Role = .accent, action: @escaping () -> Void) {
-        self.init(role: role, action: action) {
+    init(_ titleKey: LocalizedStringKey, action: @escaping () -> Void) {
+        self.init(action: action) {
             Text(titleKey)
         }
     }
@@ -622,7 +617,7 @@ public extension ViviraButton where Label == Text {
 
 The explicit `label:` argument label avoids SourceKit's overload-resolution preference for `Button(role:action:)` over `Button(action:label:)` when a trailing closure is present. Using a non-trailing closure is unambiguous.
 
-Only the `.accent` role exists. Adding `.primary`, `.secondary`, `.ghost`, `.destructive` later means extending the `Role` enum, adding cases to `body`, and exhausting the switch — out of scope for the bullet.
+The button ships with a single tinted-accent style today. A role/style enum will be introduced when a second style ships; adding it later means defining the enum, branching `body` on it, and exhausting the switch — out of scope for the bullet.
 
 - [ ] **Step 2: Build the package**
 
@@ -1600,7 +1595,7 @@ If steps 1–5 all passed without changes, the bullet meets every acceptance cri
 These come from spec §6.2 and should be filed as separate issues, not folded into the bullet:
 
 1. Implement destructive, warn, success semantic roles + their soft mixers (needed for FailureBanner, SuccessBanner, DegradedBanner, TypedConfirmBlock, StateBadge).
-2. Build the remaining four `ViviraButton` roles (`.primary`, `.secondary`, `.ghost`, `.destructive`).
+2. Add a role/style enum to `ViviraButton` when a second style ships (`.primary`, `.secondary`, `.ghost`, `.destructive`).
 3. Add high-contrast colorset variants for the 19 existing colorsets.
 4. Add the 5 × 2 snapshot matrix for `EmptyState` plus per-atom snapshot tests.
 5. Build the Settings → Appearance theme picker.

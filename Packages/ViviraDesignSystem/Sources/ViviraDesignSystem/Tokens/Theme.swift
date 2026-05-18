@@ -1,4 +1,3 @@
-// Theme enum and EnvironmentValues.viviraTheme.
 import SwiftUI
 
 public enum Theme: String, CaseIterable, Codable, Sendable {

@@ -1,4 +1,3 @@
-// Spacing, radius, and neutral color tokens.
 import SwiftUI
 
 public extension Color {

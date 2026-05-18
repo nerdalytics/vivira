@@ -1,24 +1,17 @@
-// Tinted-accent button atom (.accent role only; other roles ship later).
+// Tinted accent button atom (a11y-aware press feedback).
 
 import SwiftUI
 
 public struct ViviraButton<Label: View>: View {
-    public enum Role: Sendable {
-        case accent
-    }
-
-    private let role: Role
     private let action: () -> Void
     private let label: Label
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     public init(
-        role: Role = .accent,
         action: @escaping () -> Void,
         @ViewBuilder label: () -> Label
     ) {
-        self.role = role
         self.action = action
         self.label = label()
     }
@@ -50,8 +43,8 @@ private struct ViviraButtonStyle: ButtonStyle {
 }
 
 public extension ViviraButton where Label == Text {
-    init(_ titleKey: LocalizedStringKey, role: Role = .accent, action: @escaping () -> Void) {
-        self.init(role: role, action: action) {
+    init(_ titleKey: LocalizedStringKey, action: @escaping () -> Void) {
+        self.init(action: action) {
             Text(titleKey)
         }
     }

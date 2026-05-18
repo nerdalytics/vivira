@@ -8,7 +8,7 @@ struct ContentView: View {
                 symbol: "photo.on.rectangle.angled",
                 message: "Vivira keeps Immich shared albums\nin sync with your iPhone.",
                 ctaLabel: "Add a server",
-                action: { print("add-server tapped") }
+                action: { }
             )
             .background(Color.vivira.bg.ignoresSafeArea())
         }

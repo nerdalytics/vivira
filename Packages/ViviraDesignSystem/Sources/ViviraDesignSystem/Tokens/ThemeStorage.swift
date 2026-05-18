@@ -1,4 +1,3 @@
-// ThemeStorage: @MainActor ObservableObject with UserDefaults round-trip.
 import Foundation
 import SwiftUI
 

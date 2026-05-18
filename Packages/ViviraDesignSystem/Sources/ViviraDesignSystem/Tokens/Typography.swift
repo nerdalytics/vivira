@@ -1,4 +1,3 @@
-// Font tokens bound to Apple text styles.
 import SwiftUI
 
 public extension Font {
