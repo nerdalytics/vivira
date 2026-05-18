@@ -1421,6 +1421,11 @@ git commit -m "feat(app): wire ThemeStorage as the source of \\.viviraTheme"
 - Create: `Packages/ViviraDesignSystem/Tests/ViviraDesignSystemTests/__Snapshots__/EmptyStateSnapshotTests/test_emptyState_lumen_dark.1.png`
 
 > **Note on test framework choice:** The snapshot tests use XCTest, not Swift Testing. swift-snapshot-testing 1.19.2's Swift Testing integration triggers a compiler ICE (`failed to produce diagnostic for expression`) on the `assertSnapshot` call under iOS 26.5. XCTest is the library's primary integration target and is unaffected. The `ThemeStorage` tests continue to use Swift Testing — only the snapshot tests moved.
+>
+> **Note on view chain simplification (2026-05-18):** Both Swift Testing and XCTest forms of the snapshot test tripped the same Swift compiler ICE in `assertSnapshot`'s generic overload resolution, not in test framework integration. The view chain was reduced from 4 modifiers to 2 to push through the ICE:
+> - `.environment(\.viviraTheme, .lumen)` removed — Lumen is already the default value declared on `EnvironmentValues.viviraTheme` via `@Entry` in `Theme.swift`, so injecting it is a no-op visually but adds a generic modifier that contributes to the problematic overload resolution surface.
+> - `.frame(width: 393, height: 852)` removed — replaced by `.image(layout: .fixed(width: 393, height: 852))` on the snapshot strategy argument. Same visual output, one fewer modifier in the SwiftUI chain.
+> - `as: .image` → `as: .image(layout: .fixed(width: 393, height: 852))`.
 
 - [ ] **Step 1: Write the snapshot test file**
 
@@ -1442,12 +1447,10 @@ final class EmptyStateSnapshotTests: XCTestCase {
             ctaLabel: "Add a server",
             action: {}
         )
-        .environment(\.viviraTheme, .lumen)
         .background(Color.vivira.bg)
-        .frame(width: 393, height: 852)
         .preferredColorScheme(.light)
 
-        assertSnapshot(of: view, as: .image)
+        assertSnapshot(of: view, as: .image(layout: .fixed(width: 393, height: 852)))
     }
 
     func test_emptyState_lumen_dark() {
@@ -1457,17 +1460,15 @@ final class EmptyStateSnapshotTests: XCTestCase {
             ctaLabel: "Add a server",
             action: {}
         )
-        .environment(\.viviraTheme, .lumen)
         .background(Color.vivira.bg)
-        .frame(width: 393, height: 852)
         .preferredColorScheme(.dark)
 
-        assertSnapshot(of: view, as: .image)
+        assertSnapshot(of: view, as: .image(layout: .fixed(width: 393, height: 852)))
     }
 }
 ```
 
-This is an `XCTestCase` subclass. `@MainActor` is on the class to satisfy SwiftUI rendering requirements. `AnyView` wrapping is not needed — XCTest does not hit the ICE, and the simpler modifier chain is easier to read.
+This is an `XCTestCase` subclass. `@MainActor` is on the class to satisfy SwiftUI rendering requirements. The view chain has 2 modifiers (`.background` + `.preferredColorScheme`). `.environment(\.viviraTheme, .lumen)` is omitted because Lumen is the `@Entry` default — adding it is a visual no-op. The frame is expressed as `.image(layout: .fixed(width: 393, height: 852))` on the snapshot strategy rather than as an inline `.frame()` modifier, which reduces the modifier count and avoids the compiler ICE in overload resolution.
 
 Dimensions 393 × 852 match the iPhone 17 portrait safe area approximately.
 
