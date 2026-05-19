@@ -7,7 +7,7 @@ struct ConnectedRoot: View {
 
     var body: some View {
         ScrollView {
-            VStack(spacing: .vivira.md) {
+            VStack(spacing: .Vivira.md) {
                 HeroStatusCard.idle(
                     summary: "✓ Connected · 0 subscriptions",
                     hint: "Add an album to start syncing"
@@ -22,33 +22,33 @@ struct ConnectedRoot: View {
                     appState.kind = .notConnected
                 } label: {
                     Text("Disconnect (debug)")
-                        .font(.vivira.caption)
-                        .foregroundStyle(Color.vivira.faint)
+                        .font(.Vivira.caption)
+                        .foregroundStyle(Color.Vivira.faint)
                 }
-                .padding(.top, .vivira.md)
+                .padding(.top, .Vivira.md)
                 #endif
             }
-            .padding(.vivira.md)
+            .padding(.Vivira.md)
         }
-        .background(Color.vivira.bg.ignoresSafeArea())
+        .background(Color.Vivira.bg.ignoresSafeArea())
     }
 }
 
 private struct SubscriptionListPlaceholder: View {
     var body: some View {
         Text("subscription list — Bullet 3")
-            .font(.vivira.caption)
-            .foregroundStyle(Color.vivira.faint)
+            .font(.Vivira.caption)
+            .foregroundStyle(Color.Vivira.faint)
             .italic()
             .frame(maxWidth: .infinity, minHeight: 80)
             .background(
-                RoundedRectangle(cornerRadius: .vivira.radius.lg, style: .continuous)
-                    .fill(Color.vivira.surface)
+                RoundedRectangle(cornerRadius: .Vivira.Radius.lg, style: .continuous)
+                    .fill(Color.Vivira.surface)
             )
             .overlay(
-                RoundedRectangle(cornerRadius: .vivira.radius.lg, style: .continuous)
+                RoundedRectangle(cornerRadius: .Vivira.Radius.lg, style: .continuous)
                     .stroke(style: StrokeStyle(lineWidth: 1, dash: [4, 4]))
-                    .foregroundStyle(Color.vivira.line)
+                    .foregroundStyle(Color.Vivira.line)
             )
             .accessibilityHidden(true)
     }
@@ -58,24 +58,24 @@ private struct AppearanceSection: View {
     @Binding var selection: Theme
 
     var body: some View {
-        VStack(alignment: .leading, spacing: .vivira.md) {
+        VStack(alignment: .leading, spacing: .Vivira.md) {
             Text("Appearance")
-                .font(.vivira.monoLabel)
+                .font(.Vivira.monoLabel)
                 .tracking(1.4)
                 .textCase(.uppercase)
-                .foregroundStyle(Color.vivira.muted)
+                .foregroundStyle(Color.Vivira.muted)
 
             ThemePicker(selection: $selection)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(.vivira.md)
+        .padding(.Vivira.md)
         .background(
-            RoundedRectangle(cornerRadius: .vivira.radius.lg, style: .continuous)
-                .fill(Color.vivira.surface)
+            RoundedRectangle(cornerRadius: .Vivira.Radius.lg, style: .continuous)
+                .fill(Color.Vivira.surface)
         )
         .overlay(
-            RoundedRectangle(cornerRadius: .vivira.radius.lg, style: .continuous)
-                .stroke(Color.vivira.line, lineWidth: 1)
+            RoundedRectangle(cornerRadius: .Vivira.Radius.lg, style: .continuous)
+                .stroke(Color.Vivira.line, lineWidth: 1)
         )
     }
 }

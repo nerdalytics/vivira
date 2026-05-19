@@ -1,7 +1,7 @@
 import SwiftUI
 
 public extension Font {
-    enum vivira {
+    enum Vivira {
         public static let displayLarge: Font = .system(.largeTitle, design: .default, weight: .bold)
         public static let headline: Font = .system(.headline, design: .default)
         public static let body: Font = .system(.body, design: .default, weight: .regular)

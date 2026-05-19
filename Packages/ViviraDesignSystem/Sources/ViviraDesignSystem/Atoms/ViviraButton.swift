@@ -19,12 +19,12 @@ public struct ViviraButton<Label: View>: View {
     public var body: some View {
         Button(action: action, label: {
             label
-                .font(.vivira.bodyBold)
+                .font(.Vivira.bodyBold)
                 .lineLimit(1)
                 .frame(maxWidth: .infinity, minHeight: 44)
-                .padding(.horizontal, .vivira.mdPlus)
-                .foregroundStyle(Color.vivira.bg)
-                .background(.accent, in: RoundedRectangle(cornerRadius: .vivira.radius.md))
+                .padding(.horizontal, .Vivira.mdPlus)
+                .foregroundStyle(Color.Vivira.bg)
+                .background(.accent, in: RoundedRectangle(cornerRadius: .Vivira.Radius.md))
         })
         .buttonStyle(ViviraButtonStyle(reduceMotion: reduceMotion))
         .accessibilityAddTraits(.isButton)

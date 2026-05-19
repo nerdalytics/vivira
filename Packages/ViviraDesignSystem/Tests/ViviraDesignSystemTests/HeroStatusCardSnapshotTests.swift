@@ -13,9 +13,9 @@ final class HeroStatusCardSnapshotTests: XCTestCase {
             summary: "✓ Connected · 0 subscriptions",
             hint: "Add an album to start syncing"
         )
-        .padding(.vivira.md)
+        .padding(.Vivira.md)
         .frame(width: 393)
-        .background(Color.vivira.bg)
+        .background(Color.Vivira.bg)
         .environment(\.viviraTheme, .lumen)
 
         assertSnapshot(

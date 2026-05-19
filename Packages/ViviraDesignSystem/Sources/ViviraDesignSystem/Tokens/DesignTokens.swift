@@ -1,7 +1,7 @@
 import SwiftUI
 
 public extension Color {
-    enum vivira {
+    enum Vivira {
         public static let bg = Color("vivira.bg", bundle: .module)
         public static let surface = Color("vivira.surface", bundle: .module)
         public static let surface2 = Color("vivira.surface2", bundle: .module)
@@ -15,7 +15,7 @@ public extension Color {
 }
 
 public extension CGFloat {
-    enum vivira {
+    enum Vivira {
         public static let xs: CGFloat = 4
         public static let sm: CGFloat = 8
         public static let md: CGFloat = 16
@@ -24,7 +24,7 @@ public extension CGFloat {
         public static let xl: CGFloat = 32
         public static let xxxl: CGFloat = 48
 
-        public enum radius {
+        public enum Radius {
             public static let md: CGFloat = 10
             public static let lg: CGFloat = 14
         }

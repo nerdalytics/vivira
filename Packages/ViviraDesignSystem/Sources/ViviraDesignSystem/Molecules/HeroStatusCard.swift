@@ -20,26 +20,26 @@ public struct HeroStatusCard: View {
     }
 
     public var body: some View {
-        VStack(alignment: .leading, spacing: .vivira.xs) {
+        VStack(alignment: .leading, spacing: .Vivira.xs) {
             Text(summary)
-                .font(.vivira.headline)
-                .foregroundStyle(Color.vivira.ink)
+                .font(.Vivira.headline)
+                .foregroundStyle(Color.Vivira.ink)
 
             if let hint {
                 Text(hint)
-                    .font(.vivira.caption)
-                    .foregroundStyle(Color.vivira.muted)
+                    .font(.Vivira.caption)
+                    .foregroundStyle(Color.Vivira.muted)
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(.vivira.md)
+        .padding(.Vivira.md)
         .background(
-            RoundedRectangle(cornerRadius: .vivira.radius.lg, style: .continuous)
-                .fill(Color.vivira.surface)
+            RoundedRectangle(cornerRadius: .Vivira.Radius.lg, style: .continuous)
+                .fill(Color.Vivira.surface)
         )
         .overlay(
-            RoundedRectangle(cornerRadius: .vivira.radius.lg, style: .continuous)
-                .stroke(Color.vivira.line, lineWidth: 1)
+            RoundedRectangle(cornerRadius: .Vivira.Radius.lg, style: .continuous)
+                .stroke(Color.Vivira.line, lineWidth: 1)
         )
     }
 }

@@ -14,7 +14,7 @@ struct ContentView: View {
                     ctaLabel: "Add a server",
                     action: { appState.kind = .connected }
                 )
-                .background(Color.vivira.bg.ignoresSafeArea())
+                .background(Color.Vivira.bg.ignoresSafeArea())
             case .connected:
                 ConnectedRoot()
             }

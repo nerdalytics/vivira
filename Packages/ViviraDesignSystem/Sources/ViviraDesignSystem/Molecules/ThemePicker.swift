@@ -15,7 +15,7 @@ public struct ThemePicker: View {
     }
 
     public var body: some View {
-        VStack(spacing: .vivira.sm) {
+        VStack(spacing: .Vivira.sm) {
             HStack(spacing: 0) {
                 ForEach(Theme.allCases, id: \.self) { theme in
                     Button {
@@ -31,8 +31,8 @@ public struct ThemePicker: View {
             }
 
             Text(selection.displayName)
-                .font(.vivira.caption)
-                .foregroundStyle(Color.vivira.muted)
+                .font(.Vivira.caption)
+                .foregroundStyle(Color.Vivira.muted)
         }
     }
 

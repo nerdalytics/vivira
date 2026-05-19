@@ -32,7 +32,7 @@ public struct ThemeSwatch: View {
     private var selectionRing: some View {
         if isSelected {
             Circle()
-                .stroke(Color.vivira.ink, lineWidth: Self.ringWidth)
+                .stroke(Color.Vivira.ink, lineWidth: Self.ringWidth)
                 .frame(
                     width: Self.diameter + (Self.ringGap + Self.ringWidth) * 2,
                     height: Self.diameter + (Self.ringGap + Self.ringWidth) * 2

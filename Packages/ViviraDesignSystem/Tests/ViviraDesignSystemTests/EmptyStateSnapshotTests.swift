@@ -21,7 +21,7 @@ final class EmptyStateSnapshotTests: XCTestCase {
             ctaLabel: "Add a server",
             action: {}
         )
-        .background(Color.vivira.bg)
+        .background(Color.Vivira.bg)
 
         assertSnapshot(
             of: view,
@@ -39,7 +39,7 @@ final class EmptyStateSnapshotTests: XCTestCase {
             ctaLabel: "Add a server",
             action: {}
         )
-        .background(Color.vivira.bg)
+        .background(Color.Vivira.bg)
 
         assertSnapshot(
             of: view,

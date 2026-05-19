@@ -59,9 +59,9 @@ final class ThemePickerSnapshotTests: XCTestCase {
             @State var selection: Theme
             var body: some View {
                 ThemePicker(selection: $selection)
-                    .padding(.vivira.md)
+                    .padding(.Vivira.md)
                     .frame(width: 360, alignment: .center)
-                    .background(Color.vivira.surface)
+                    .background(Color.Vivira.surface)
             }
         }
 
