@@ -21,10 +21,15 @@ final class EmptyStateSnapshotTests: XCTestCase {
             ctaLabel: "Add a server",
             action: {}
         )
-        .background(Color.vivira.bg)
-        .preferredColorScheme(.light)
+        .background(Color.Vivira.bg)
 
-        assertSnapshot(of: view, as: .image(layout: .fixed(width: 393, height: 852)))
+        assertSnapshot(
+            of: view,
+            as: .image(
+                layout: .fixed(width: 393, height: 852),
+                traits: UITraitCollection(userInterfaceStyle: .light)
+            )
+        )
     }
 
     func test_emptyState_lumen_dark() {
@@ -34,10 +39,15 @@ final class EmptyStateSnapshotTests: XCTestCase {
             ctaLabel: "Add a server",
             action: {}
         )
-        .background(Color.vivira.bg)
-        .preferredColorScheme(.dark)
+        .background(Color.Vivira.bg)
 
-        assertSnapshot(of: view, as: .image(layout: .fixed(width: 393, height: 852)))
+        assertSnapshot(
+            of: view,
+            as: .image(
+                layout: .fixed(width: 393, height: 852),
+                traits: UITraitCollection(userInterfaceStyle: .dark)
+            )
+        )
     }
 }
 #endif

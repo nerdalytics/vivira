@@ -21,24 +21,24 @@ public struct EmptyState: View {
 
     public var body: some View {
         VStack(spacing: 0) {
-            Spacer(minLength: .vivira.xxxl)
+            Spacer(minLength: .Vivira.xxxl)
 
             Icon(symbol: symbol, size: 48)
-                .foregroundStyle(Color.vivira.faint)
+                .foregroundStyle(Color.Vivira.faint)
 
-            Spacer().frame(height: .vivira.lg)
+            Spacer().frame(height: .Vivira.lg)
 
             Text(message)
-                .font(.vivira.body)
-                .foregroundStyle(Color.vivira.ink2)
+                .font(.Vivira.body)
+                .foregroundStyle(Color.Vivira.ink2)
                 .multilineTextAlignment(.center)
 
-            Spacer().frame(height: .vivira.xl)
+            Spacer().frame(height: .Vivira.xl)
 
             ViviraButton(ctaLabel, action: action)
-                .padding(.horizontal, .vivira.md)
+                .padding(.horizontal, .Vivira.md)
 
-            Spacer(minLength: .vivira.xxxl)
+            Spacer(minLength: .Vivira.xxxl)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }

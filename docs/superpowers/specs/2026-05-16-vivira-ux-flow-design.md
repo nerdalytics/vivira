@@ -44,7 +44,7 @@ Vivira supports multiple Immich servers per device. Each server has its own cred
 Account
 ├── settings (app-wide)
 │   ├── wifiOnly: Bool                    [default: true]
-│   ├── chargingOnly: Bool                [default: false]
+│   ├── lowPowerDefer: Bool               [default: true; pauses when ProcessInfo.isLowPowerModeEnabled is true]
 │   ├── safetyFloorBytes: Int64           [default: 2 GB; editable in advanced settings]
 │   ├── notifyOnSpaceEvent: Bool          [default: true; rare events]
 │   ├── notifyOnLongTransferComplete: Bool [default: false; opt-in for >1 h transfers]
@@ -265,12 +265,15 @@ Tapping a subscription opens the subscription detail screen (§6). Long-press �
 
 **Conditions** (app-wide)
 - Wi-Fi only
-- Only while charging
+- Pause while Low Power Mode
 
 **Servers**
 - One row per server: nickname, hostname (small), capability badge (✓ resumable / ⚠ standard uploads)
 - Tap → server detail screen (rename, edit credentials, disconnect, sign out)
 - `+ Add another server` row at bottom
+
+**Appearance** (app-wide)
+- A row of 5 swatches, one per theme, rendered in the current colorScheme. The selected theme carries a 2pt `color.ink` ring with a 2pt `color.surface` gap (donut style). Tap to switch instantly; no apply button. Caption beneath the row names the current theme.
 
 **About**
 - Version, license, debug log toggle, link to docs.

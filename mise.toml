@@ -1,5 +1,3 @@
-[tools]
-
 [env]
 PROJECT_NAME = "Vivira"
 SCHEME = "Vivira"
@@ -36,26 +34,89 @@ xcodebuild build \
   | xcbeautify
 '''
 
+# Snapshot test workflow
+#
+# Snapshot baselines (PNGs under __Snapshots__/) are committed to git and
+# are the source of truth for what the UI is expected to look like. A
+# failed snapshot test is a signal — either the UI regressed, or it was
+# changed intentionally and the references are stale. The dev or reviewer
+# decides which. See CONTRIBUTING.md for the full workflow.
+#
+# `mise run test`        strict; never auto-records; missing baselines fail.
+# `mise run test:record` wipes __Snapshots__/ and re-records, then prints
+#                        next-steps (review the diff, accept with git add
+#                        or reject with git restore, commit alongside code).
+# `mise run test:diff`   shows which baselines differ from HEAD.
+
 [tasks.test]
-description = "Run unit tests on $SIM_DEVICE (app on simulator + design system on host; see spec §6.2 about snapshot tests)"
+description = "Run unit tests on $SIM_DEVICE (strict: fails on missing or differing snapshot baselines)"
 depends = ["generate"]
 run = '''
 set -euo pipefail
 
-# Run the app's tests (ViviraTests.smoke) on the iOS simulator.
-xcodebuild test \
+SNAPSHOT_TESTING_RECORD_MODE=never xcodebuild test \
   -project $PROJECT_NAME.xcodeproj \
   -scheme $SCHEME \
   -destination "platform=iOS Simulator,name=$SIM_DEVICE" \
   OTHER_SWIFT_FLAGS="\$(inherited) $EXTRA_SWIFT_FLAGS" \
   | xcbeautify
+'''
 
-# Run the design system's host-runnable tests (ThemeStorage). The snapshot
-# tests are #if canImport(UIKit)-gated and only compile against iOS; they
-# require an Xcode scheme that builds the package test target for the
-# simulator. Wiring that scheme is tracked as a follow-up in the tracer
-# bullet spec §6.2.
-swift test --package-path Packages/ViviraDesignSystem
+[tasks."test:record"]
+description = "Wipe and re-record all snapshot baselines (use after intentional visual changes)"
+depends = ["generate"]
+run = '''
+set -euo pipefail
+
+SNAPSHOT_DIR="Packages/ViviraDesignSystem/Tests/ViviraDesignSystemTests/__Snapshots__"
+
+echo "Removing existing snapshot baselines under $SNAPSHOT_DIR..."
+rm -rf "$SNAPSHOT_DIR"
+
+echo "Re-running tests to record fresh baselines (the failure that follows is the recording event, not a defect)..."
+SNAPSHOT_TESTING_RECORD_MODE=missing xcodebuild test \
+  -project $PROJECT_NAME.xcodeproj \
+  -scheme $SCHEME \
+  -destination "platform=iOS Simulator,name=$SIM_DEVICE" \
+  OTHER_SWIFT_FLAGS="\$(inherited) $EXTRA_SWIFT_FLAGS" \
+  | xcbeautify || true
+
+cat <<'NEXT'
+
+────────────────────────────────────────────────────────────────────────
+Recording complete. Next steps:
+
+  1. Inspect each new baseline:
+     mise run test:diff
+
+  2. For every changed PNG, decide:
+       Intentional change → git add <path>
+       Accidental change  → git restore <path>, then fix the code
+
+  3. Confirm strict tests pass against the accepted baselines:
+     mise run test
+
+  4. Commit the accepted PNGs alongside the code change that produced them.
+
+See CONTRIBUTING.md for the full workflow.
+────────────────────────────────────────────────────────────────────────
+NEXT
+
+# The xcodebuild step is expected to fail (that's how snapshot-testing
+# reports a recording event). The `|| true` above absorbed that failure;
+# this explicit exit reinforces that the task as a whole succeeded.
+exit 0
+'''
+
+[tasks."test:diff"]
+description = "Show which snapshot baselines have changed since HEAD"
+run = '''
+SNAPSHOT_DIR="Packages/ViviraDesignSystem/Tests/ViviraDesignSystemTests/__Snapshots__"
+if [ -z "$(git status --porcelain -- "$SNAPSHOT_DIR")" ]; then
+  echo "No baseline changes under $SNAPSHOT_DIR."
+else
+  git status --short -- "$SNAPSHOT_DIR"
+fi
 '''
 
 [tasks.lint]

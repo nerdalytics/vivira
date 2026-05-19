@@ -45,3 +45,21 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: cc.vivira.tests
         GENERATE_INFOPLIST_FILE: YES
+
+schemes:
+  Vivira:
+    build:
+      targets:
+        Vivira: all
+    test:
+      targets:
+        - ViviraTests
+        - package: ViviraDesignSystem/ViviraDesignSystemTests
+      gatherCoverageData: false
+      coverageTargets: []
+    run:
+      executable: Vivira
+    profile:
+      executable: Vivira
+    analyze: {}
+    archive: {}
