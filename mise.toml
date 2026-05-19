@@ -103,6 +103,11 @@ Recording complete. Next steps:
 See CONTRIBUTING.md for the full workflow.
 ────────────────────────────────────────────────────────────────────────
 NEXT
+
+# The xcodebuild step is expected to fail (that's how snapshot-testing
+# reports a recording event). The `|| true` above absorbed that failure;
+# this explicit exit reinforces that the task as a whole succeeded.
+exit 0
 '''
 
 [tasks."test:diff"]
